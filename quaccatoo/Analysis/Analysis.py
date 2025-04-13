@@ -365,7 +365,7 @@ class Analysis:
 
     ######################################################## Other Plotting Methods ########################################################
 
-    def plot_results(self, figsize=(6, 4), xlabel=None, ylabel="Observable", title="Results"):
+    def plot_results(self, figsize=(6, 4), xlabel=None, ylabel="Observable", title="Results", ax=None):
         """
         Plots the results of the experiment
 
@@ -380,18 +380,20 @@ class Analysis:
         title : str
             title of the plot
         """
-        if not (isinstance(figsize, tuple) or len(figsize) == 2):
-            raise ValueError("figsize must be a tuple of two positive floats")
 
-        if not isinstance(ylabel, str) or not isinstance(title, str):
-            raise ValueError("ylabel and title must be strings")
+        if ax is None:
+            if not (isinstance(figsize, tuple) or len(figsize) == 2):
+                raise ValueError("figsize must be a tuple of two positive floats")
 
-        if xlabel is None:
-            xlabel = self.experiment.variable_name
-        elif not isinstance(xlabel, str):
-            raise ValueError("xlabel must be a string")
+            if not isinstance(ylabel, str) or not isinstance(title, str):
+                raise ValueError("ylabel and title must be strings")
 
-        fig, ax = plt.subplots(1, 1, figsize=figsize)
+            if xlabel is None:
+                xlabel = self.experiment.variable_name
+            elif not isinstance(xlabel, str):
+                raise ValueError("xlabel must be a string")
+
+            fig, ax = plt.subplots(1, 1, figsize=figsize)
 
         # check if the observable is a Qobj or a list of Qobj
         if isinstance(self.experiment.results, np.ndarray):
